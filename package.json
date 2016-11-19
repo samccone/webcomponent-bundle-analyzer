@@ -1,6 +1,6 @@
 {
   "name": "webcomponent-bundle-analyzer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "bin": "./analyze.js",
   "dependencies": {
     "polymer-analyzer": "^2.0.0-alpha.17"
