@@ -11,7 +11,7 @@ Identify where your bundle bulk is coming from!
 
 ### Running:
 
-`webcomponent-bundle-analyzer {path_to_elements_root_directory} {root_element_list.html} >
+`webcomponent-bundle-analyzer {path_to_project_root} {root_element_list.html} >
 size-map.html`
 
 `open size-map.html`
