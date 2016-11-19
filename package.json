@@ -1,4 +1,6 @@
 {
+  "name": "webcomponent-bundle-analyzer",
+  "version": "0.1.0",
   "script": {
     "analyze": "analyze.js"
   },
