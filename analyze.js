@@ -10,9 +10,9 @@ var baseUrl = process.argv[2]
 var rootElm = process.argv[3]
 var fs = require('fs');
 var path = require('path');
-var Analyzer = require('./node_modules/polymer-analyzer/lib/analyzer');
-var FSUrlLoader= require('./node_modules/polymer-analyzer/lib/url-loader/fs-url-loader');
-var PackageUrlResolver = require('./node_modules/polymer-analyzer/lib/url-loader/package-url-resolver');
+var Analyzer = require('polymer-analyzer/lib/analyzer');
+var FSUrlLoader= require('polymer-analyzer/lib/url-loader/fs-url-loader');
+var PackageUrlResolver = require('polymer-analyzer/lib/url-loader/package-url-resolver');
 
 var analyzer = new Analyzer.Analyzer({
   urlLoader: new FSUrlLoader.FSUrlLoader(baseUrl),
