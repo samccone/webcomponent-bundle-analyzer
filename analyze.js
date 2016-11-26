@@ -10,6 +10,7 @@ var baseUrl = process.argv[2]
 var rootElm = process.argv[3]
 var fs = require('fs');
 var path = require('path');
+var buildPage = require('./build-page');
 var Analyzer = require('polymer-analyzer/lib/analyzer');
 var FSUrlLoader= require('polymer-analyzer/lib/url-loader/fs-url-loader');
 var PackageUrlResolver = require('polymer-analyzer/lib/url-loader/package-url-resolver');
@@ -18,105 +19,6 @@ var analyzer = new Analyzer.Analyzer({
   urlLoader: new FSUrlLoader.FSUrlLoader(baseUrl),
   urlResolver: new PackageUrlResolver.PackageUrlResolver()
 });
-
-function buildPage(vendor, groups) {
-  return `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <style> *{ margin: 0; padding: 0}
-          #group-info {
-            height: 100px;
-            position: fixed;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.28);
-            width: 100%;
-          }
-        </style>
-        <script>${vendor}</script>
-
-      </head>
-      <body>
-      <div id="treemap"></div>
-      <div id="group-info"></div>
-      <script>
-         const treeMap = document.querySelector('#treemap');
-         const groupInfo = document.querySelector('#group-info');
-
-         treeMap.style.height = (window.innerHeight - 100) + 'px';
-         treeMap.style.width = window.innerWidth + 'px';
-         var treemap = new CarrotSearchFoamTree({
-            id: 'treemap',
-            layout: 'squarified',
-            stacking: 'flattened',
-            maxGroupLevelsDrawn: Number.MAX_VALUE,
-            maxGroupLabelLevelsDrawn: Number.MAX_VALUE,
-            groupLabelVerticalPadding: 0.2,
-            rolloutDuration: 0,
-            pullbackDuration: 0,
-            fadeDuration: 0,
-            zoomMouseWheelDuration: 300,
-            openCloseDuration: 200,
-            dataObject: {
-              groups: ${JSON.stringify(groups)}
-            },
-            titleBarDecorator: function (opts, props, vars) {
-              vars.titleBarShown = false;
-            },
-
-            onGroupClick: function (event) {
-              event.preventDefault();
-              zoomOutDisabled = false;
-              treemap.zoom(event.group);
-            },
-
-            onGroupHover: function (event) {
-              var group = event.group;
-
-              if (group !== null) {
-                setGroupToolInfo(group);
-              }
-            }
-           });
-
-
-         function getFileInfo(group) {
-          const selfSize = document.createTextNode(
-            'Self Size ' + (group.fileSize / 1024).toFixed(2) + 'KB');
-
-          const totalSize = document.createTextNode(
-            'Total Size ' + (group.weight / 1024).toFixed(2) + 'KB');
-
-          const root = document.createDocumentFragment();
-
-          root.appendChild(selfSize);
-          root.appendChild(document.createElement('br'))
-          root.appendChild(totalSize);
-
-          return root;
-         }
-
-
-         function setGroupToolInfo(group) {
-           groupInfo.innerHTML = '';
-           const header = document.createElement('b');
-           const fileInfo = document.createElement('div');
-
-           fileInfo.appendChild(getFileInfo(group));
-           header.textContent = group.label;
-           groupInfo.appendChild(header);
-           groupInfo.appendChild(fileInfo);
-         }
-
-         window.addEventListener('resize', () => {
-           treeMap.style.height = (window.innerHeight - 100) + 'px';
-           treeMap.style.width = window.innerWidth + 'px';
-           treemap.resize()
-         });
-      </script>
-      </body>
-      </html>`
-}
 
 function findExisting(url, urls) {
   if (urls[url] !== undefined) {
