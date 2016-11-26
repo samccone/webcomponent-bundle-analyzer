@@ -15,3 +15,9 @@ Identify where your bundle bulk is coming from!
 size-map.html`
 
 `open size-map.html`
+
+### Testing
+
+`node test/generate-test-page.js > tmp.html`
+`open tmp.html`
+
