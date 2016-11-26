@@ -8,8 +8,9 @@ module.exports = (vendor, groups) => { return `
         height: 100px;
         position: fixed;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.28);
         width: 100%;
+        font-family: sans-serif;
+        padding-left: 10px;
       }
     </style>
     <script>${vendor}</script>
@@ -35,6 +36,26 @@ module.exports = (vendor, groups) => { return `
         fadeDuration: 0,
         zoomMouseWheelDuration: 300,
         openCloseDuration: 200,
+        groupColorDecorator: function(opts, params, vars) {
+          var color = vars.groupColor
+
+          //children colors aside from first level
+          color.h = 172
+          color.s = 81
+          color.l = 85
+
+          //overall background
+          if (params.level === 0 ) {
+            color.h = 231
+            color.s = 81
+            color.l = 42
+          } else if (params.level === 1){
+            color.h = 182
+            color.s = 99
+            color.l = 45
+          }
+
+      },
         dataObject: {
           groups: ${groups}
         },
